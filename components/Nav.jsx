@@ -33,18 +33,14 @@ const Nav = () => {
               Create Post  
             </Link>
 
-          <button type="button" onClick={signOut} className='outline_btn'>
-            Sign Out
-          </button>
+            <button type="button" onClick={signOut} className='outline_btn'>
+              Sign Out
+            </button>
 
-          <Link href="/profile" className=''>
-            <Image src="/assets/images/logo.svg" width={37} height={37} alt="profile" className='rounded-full'  onClick={()=>{setToggleDropdown((prev)=>!prev)}}></Image>
-          </Link>
-          {toggleDropdown && (
-            <div className='dropdown'>
-
+            <div className='flex'>
+              <Image src="/assets/images/logo.svg" width={37} height={37} alt="profile" className='rounded-full'  onClick={()=>{setToggleDropdown((prev)=>!prev)}}></Image>
             </div>
-          )}
+     
           </div> 
          ) :
          <>
@@ -63,7 +59,24 @@ const Nav = () => {
        <div className='flex sm:hidden relative'>
          {isUserLoggedIn? 
           (<div className='flex'>
-            <Image src="/assets/images/logo.svg" width={37} height={37} alt="profile" className='rounded-full' onClick={()=>{}}/>
+             <Image src="/assets/images/logo.svg" width={37} height={37} alt="profile" className='rounded-full' onClick={()=>{setToggleDropdown((prev)=>(!prev))}}/>
+           
+              {toggleDropdown && (
+               <div className='dropdown'>
+                 <Link href="/profile" className='dropdown_link' onClick={()=>{setToggleDropdown(false)}}>
+                   My Profile
+                 </Link>
+                 <Link href="/create-prompt" className='dropdown_link' onClick={()=>{setToggleDropdown(false)}}>
+                   Create Prompt
+                 </Link>
+                 <button type="button" className="mt-5 w-full black_btn" 
+                  onClick={()=>{setToggleDropdown(false);
+                            signOut();}}>
+                  Sign Out   
+                 </button>  
+               </div>
+              )}
+
            </div>) 
           : 
           (<>
