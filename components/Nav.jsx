@@ -5,8 +5,8 @@ import {useState, useEffect} from 'react';
 import {signIn,signOut,useSession, getProviders} from 'next-auth/react';
 
 const Nav = () => {
+  const {data: session} = useSession();
 
-  const isUserLoggedIn = true;
   const [providers, setProviders] = useState(null);
   const [toggleDropdown, setToggleDropdown] = useState(false);
   useEffect(()=>{
@@ -23,10 +23,10 @@ const Nav = () => {
         <Image src="/assets/images/logo.svg" width={32} height={32} alt="Promtopia" className='object-contain'></Image>
         <p className='logo_text'>Promptopia</p>
       </Link>
-
+      
        {/* Desktop Navigation  */}
        <div className='sm:flex hidden'>
-         {isUserLoggedIn? 
+         {session?.user ? 
          (
           <div className='flex gap-3 md:gap-5'>
             <Link href="/create-prompt" className='black_btn'>
@@ -38,14 +38,14 @@ const Nav = () => {
             </button>
 
             <div className='flex'>
-              <Image src="/assets/images/logo.svg" width={37} height={37} alt="profile" className='rounded-full'  onClick={()=>{setToggleDropdown((prev)=>!prev)}}></Image>
+              <Image src={session?.user.image} width={37} height={37} alt="profile" className='rounded-full'  onClick={()=>{setToggleDropdown((prev)=>!prev)}}></Image>
             </div>
      
           </div> 
          ) :
          <>
          {providers && Object.values(providers).map((provider)=>(
-           <button type="button" key={provider.name}  className='black_btn'>
+           <button type="button" key={provider.name}  className='black_btn' onClick={() => {signIn(provider.id); }}>
              Sign In
            </button>
            
@@ -57,9 +57,9 @@ const Nav = () => {
 
        {/* Mobile Navigation  */}
        <div className='flex sm:hidden relative'>
-         {isUserLoggedIn? 
+         {session?.user? 
           (<div className='flex'>
-             <Image src="/assets/images/logo.svg" width={37} height={37} alt="profile" className='rounded-full' onClick={()=>{setToggleDropdown((prev)=>(!prev))}}/>
+             <Image src={session?.user.image} width={37} height={37} alt="profile" className='rounded-full' onClick={()=>{setToggleDropdown((prev)=>(!prev))}}/>
            
               {toggleDropdown && (
                <div className='dropdown'>
