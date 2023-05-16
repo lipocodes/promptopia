@@ -6,7 +6,7 @@ export const GET = async(req,res) =>{
    await connectToDB();
 
    const prompts = await Prompt.find({}).populate('creator');
-   return new Response(JSON.stringify(prompts), {status:200});
+ return new Response(JSON.stringify(prompts), {status:200});
 
  }catch(error){
    console.log("eeeeeeeeeeeeee api/prompt/route.js:" + error); 
