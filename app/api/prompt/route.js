@@ -1,15 +1,14 @@
-import {connectToDB} from "@utils/database";
-import Prompt from "../../../models/prompt";
+import Prompt from "@models/prompt";
+import { connectToDB } from "@utils/database";
 
-export const GET = async(req,res) =>{
- try{
-   await connectToDB();
+export const GET = async (request) => {
+    try {
+        await connectToDB()
 
-   const prompts = await Prompt.find({}).populate('creator');
- return new Response(JSON.stringify(prompts), {status:200});
+        const prompts = await Prompt.find({}).populate('creator')
 
- }catch(error){
-   console.log("eeeeeeeeeeeeee api/prompt/route.js:" + error); 
-   return new Response("Couldn't retreive prompt's", {status:500});
- }
-}
+        return new Response(JSON.stringify(prompts), { status: 200 })
+    } catch (error) {
+        return new Response("Failed to fetch all prompts", { status: 500 })
+    }
+} 
